@@ -29,6 +29,26 @@ test( "blanket instrument elseif block", function() {
  
 });
 
+test( "blanket instrument use strict in function", function() {
+    expect(1);
+    var infile = "function useStrict() { \"use strict\";\notDefined = 10; }; useStrict();";
+    var infilename= "testfile4";
+    blanket.instrument({
+        inputFile: infile,
+        inputFileName: infilename
+    },function(instrumented){
+     throws(
+        function() {
+            eval(instrumented);
+        },
+        "should remain in strict mode even after instrumentation"
+    );
+    });
+ 
+});
+
+
+
 test( "blanket instrument for in", function() {
     expect(1);
     var result;
